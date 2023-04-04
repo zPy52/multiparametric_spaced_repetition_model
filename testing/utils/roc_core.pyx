@@ -3,8 +3,8 @@ from threading import Lock
 
 from utils.build_db import build_db
 from utils.db_utils cimport format_response, classify_expected_response
-from utils.flashcards cimport MSRMFlashcard
-from utils.algorithms cimport MSRM
+from utils.flashcard cimport Flashcard
+from utils.algorithm cimport Algorithm
 
 cdef class ROC:
 	cdef public int TP, FP, TN, FN
@@ -24,16 +24,16 @@ cdef ROC roc_core(double a, double b, double c, double threshold):
 	cdef int TP, FP, TN, FN, n
 	cdef str user, lexeme
 	cdef double difference_in_days, expected_response
-	cdef MSRMFlashcard card
-	cdef MSRM algorithm
+	cdef Flashcard card
+	cdef Algorithm algorithm
 
 	TP, FP, TN, FN = 0, 0, 0, 0
 
 	for user in data:
 		for lexeme in data[user]:
 			for n in range(1, len(data[user][lexeme])):
-				card = MSRMFlashcard(lexeme, '', data[user][lexeme][n - 1].date)
-				algorithm = MSRM(card, a, b, c)
+				card = Flashcard(lexeme, '', data[user][lexeme][n - 1].date)
+				algorithm = Algorithm(card, a, b, c)
                 
 				for _ in range(data[user][lexeme][n].history_seen - data[user][lexeme][n].history_correct):
 					algorithm.evaluate(-1)

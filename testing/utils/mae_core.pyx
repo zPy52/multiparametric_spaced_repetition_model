@@ -2,8 +2,8 @@
 from threading import Lock
 from utils.build_db import build_db
 from utils.db_utils cimport get_expected_response
-from utils.flashcards cimport MSRMFlashcard
-from utils.algorithms cimport MSRM
+from utils.flashcard cimport Flashcard
+from utils.algorithm cimport Algorithm
 
 cdef dict data = build_db('learning_traces.13m.csv')
 
@@ -21,14 +21,14 @@ cpdef tuple main(double a, double b, double c):
     cdef double difference_in_days, expected_response
     cdef list maes = []
 
-    cdef MSRMFlashcard card
-    cdef MSRM algorithm
+    cdef Flashcard card
+    cdef Algorithm algorithm
 
     for user in data:
         for lexeme in data[user]:
             for n in range(1, len(data[user][lexeme])):
-                card = MSRMFlashcard(lexeme, '', data[user][lexeme][n - 1].date)
-                algorithm = MSRM(card, a, b, c)
+                card = Flashcard(lexeme, '', data[user][lexeme][n - 1].date)
+                algorithm = Algorithm(card, a, b, c)
                     
                 for _ in range(data[user][lexeme][n].history_seen - data[user][lexeme][n].history_correct):
                     algorithm.evaluate(-1)

@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-cdef class MSRMFlashcard:
+cdef class Flashcard:
 	def __init__(self, str public, str private, object next_date, bint exam_phase = False):
 		if not isinstance(next_date, datetime):
 			raise TypeError('Invalid datetime object.')
@@ -35,28 +35,3 @@ cdef class MSRMFlashcard:
 			self.__prowess_factor = 0.0125
 		else:
 			self.__prowess_factor = value
-
-
-cdef class LeitnerFlashcard:
-	def __init__(self, str public, str private, object next_date, double box = 1.0):
-		self.public = public
-		self.private = private
-		self.next_date = next_date
-		self.box = box
-
-
-cdef class PimsleurFlashcard:
-	def __init__(self, str public, str private, object next_date, int stage = 1):
-		self.public = public
-		self.private = private
-		self.next_date = next_date
-		self.__stage = stage
-
-	@property
-	def stage(self):
-		return self.__stage
-
-	@stage.setter
-	def stage(self, int value):
-		if value >= 1 and value <= 11:
-			self.__stage = value

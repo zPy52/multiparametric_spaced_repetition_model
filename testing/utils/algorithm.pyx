@@ -1,17 +1,17 @@
 #cython: language_level=3
 
-from libc.math cimport e, sqrt
+from libc.math cimport sqrt
 cdef double PHI = (1.0 + sqrt(5.0)) / 2.0
 
 from utils.nonstaticgaussbell cimport NonStaticGaussBell
-from utils.flashcards cimport MSRMFlashcard, LeitnerFlashcard, PimsleurFlashcard
+from utils.flashcard cimport Flashcard
 
 from math import log
 from datetime import datetime, timedelta
 
 
-cdef class MSRM:
-	def __init__(self, MSRMFlashcard flashcard, double a = 2.0, double b = 2.0, double c = 2.0):
+cdef class Algorithm:
+	def __init__(self, Flashcard flashcard, double a = 2.0, double b = 2.0, double c = 2.0):
 		self.flashcard = flashcard
         
 		self.__gauss = NonStaticGaussBell(a, b, c)
@@ -62,56 +62,3 @@ cdef class MSRM:
 			
 			else:
 				self.flashcard.next_date = datetime(7500, 1, 1)
-
-
-cdef class LeitnerSystem:
-	def __init__(self, LeitnerFlashcard flashcard):
-		self.flashcard = flashcard
-
-	cdef void evaluate(self, int response):
-		if self.flashcard.box > 180:
-			return
-
-		if response == 1:
-			self.flashcard.box *= 2.0
-		else:
-			self.flashcard.box /= 2.0
-
-		self.flashcard.next_date += timedelta(days=self.flashcard.box)
-
-
-cdef class PimsleurSystem:
-	def __init__(self, PimsleurFlashcard flashcard):
-		self.flashcard = flashcard
-
-	cdef object __stage_to_timedelta(self):
-		if self.flashcard.stage == 1:
-			return timedelta(seconds=5)
-		elif self.flashcard.stage == 2:
-			return timedelta(seconds=25)
-		elif self.flashcard.stage == 3:
-			return timedelta(minutes=2)
-		elif self.flashcard.stage == 4:
-			return timedelta(minutes=10)
-		elif self.flashcard.stage == 5:
-			return timedelta(hours=1)
-		elif self.flashcard.stage == 6:
-			return timedelta(hours=5)
-		elif self.flashcard.stage == 7:
-			return timedelta(days=1)
-		elif self.flashcard.stage == 8:
-			return timedelta(days=5)
-		elif self.flashcard.stage == 9:
-			return timedelta(days=25)
-		elif self.flashcard.stage == 10:
-			return timedelta(days=4 * 30)
-		else:
-			return timedelta(days=365 * 2)
-
-	cdef void evaluate(self, int response):
-		if self.flashcard.stage == 11:
-			return
-
-		self.flashcard.stage += 1
-
-		self.flashcard.next_date += self.__stage_to_timedelta()

@@ -17,3 +17,8 @@ In order to effectively install Cython, it's not enough to run `pip3 install Cyt
 
 ## Dataset
 The dataset used for this research is the one provided by [Settles and Meeder](https://github.com/duolingo/halflife-regression) (2016) and is available on [Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/N8XJME).
+
+## Compiling code and execution instructions
+Cython code must be compiled before running. You can easily do so by going to the pertinent directory (`cd testing`) and going to the Terminal/Command Prompt and running `py compiler.py build_ext --inplace`. That command will automatically _cythonize_ every `.pyx` file in the `testing/utils` subfolder.
+
+Regarding general guidelines to execute the code, it has been designed so that the reader should go to the adecuate directory with the `cd` command and then, right in the desired folder, run the sought code file.
