@@ -13,4 +13,4 @@ We employ Python and Cython to devise the logic of every program written. Some e
 - `numpy`: 1.24.0
 - `pandas`: 1.5.2
 
-In order to effectively install Cython, it's not enough to run `pip3 install Cython`, but you also need C Build Tools installed in your computer. For detailed guidelines on installation, you can visit the official [web page](https://cython.readthedocs.io/en/latest/src/quickstart/install.html).
+In order to effectively install Cython, it's not enough to run `pip3 install Cython`, but you also need a C Compiler such as GCC or Microsoft Visual C/C++ installed in your computer. For detailed guidelines on installation, you can visit the official [web page](https://cython.readthedocs.io/en/latest/src/quickstart/install.html).
